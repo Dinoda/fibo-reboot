@@ -5,7 +5,9 @@
 	"license": "ISC",
 	"author": "",
 	"type": "module",
-	"main": "index.js",
+	"exports": {
+		".": "index.js"
+	},
 	"scripts": {
 		"start": "node index.js",
 		"test": "node test/index.js"

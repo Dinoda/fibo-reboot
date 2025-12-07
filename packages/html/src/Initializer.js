@@ -42,6 +42,9 @@ export default class Initializer {
 
 		for (const {name, value} of source.attrs) {
 			switch(name) {
+				case 'data':
+					source.fb.data = value;
+					break;
 				case 'multiple': 
 					source.fb.multiple = true;
 					break;

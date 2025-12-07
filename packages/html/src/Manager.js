@@ -105,33 +105,33 @@ export default class SSRManager {
 	// Building //
 	// ======== //
 
-	build(name) {
+	build(name, data) {
 		const res = this.components[name];
 
 		if (! res) {
 			throw new Error(`Building process requested component named "${name}" but it wasn't found`);
 		}
 
-		return this.builder.build(res);
+		return this.builder.build(res, data);
 	}
 	
-	buildLayout(name) {
+	buildLayout(name, data) {
 		const lay = this.layouts[name];
 
 		if (! lay) {
 		}
 
-		return this.builder.build(lay);
+		return this.builder.build(lay, data);
 	}
 
-	buildPage(name) {
+	buildPage(name, data) {
 		const page = this.pages[name];
 
 		if (! page) {
 			throw new Error(`No page named "${name}" found to build in the builder`);
 		}
 
-		this.renders[name] = this.builder.build(page);
+		this.renders[name] = this.builder.build(page, data);
 
 		return this.renders[name];
 	}
