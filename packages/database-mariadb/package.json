@@ -9,7 +9,7 @@
     ".": "./index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"No test for package 'fibo-database-mariadb' yet\" && exit 0"
   },
   "dependencies": {
     "fibo-database": "file:../database",

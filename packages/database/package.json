@@ -8,7 +8,9 @@
   "exports": {
     ".": "./index.js"
   },
-  "scripts": {},
+  "scripts": {
+	  "test": "echo \"No test for package 'fibo-database' yet\" && exit 0"
+  },
   "dependencies": {
     "fibo-common": "file:../common"
   }
