@@ -1,0 +1,20 @@
+{
+	"name": "fibo",
+	"version": "1.0.0",
+	"description": "",
+	"homepage": "https://github.com/Dinoda/fibo-reboot#readme",
+	"bugs": {
+		"url": "https://github.com/Dinoda/fibo-reboot/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Dinoda/fibo-reboot.git"
+	},
+	"license": "ISC",
+	"author": "",
+	"scripts": {
+		"i": "npm run --workspaces npm i",
+		"test": "npm run test --workspaces"
+	},
+	"workspaces": [ "packages/*" ]
+}
