@@ -1,0 +1,16 @@
+{
+	"name": "fibo-html",
+	"version": "1.0.0",
+	"description": "HTML building package",
+	"license": "ISC",
+	"author": "",
+	"type": "module",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js",
+		"test": "node test/index.js"
+	},
+	"dependencies": {
+		"parse5": "^8.0.0"
+	}
+}
