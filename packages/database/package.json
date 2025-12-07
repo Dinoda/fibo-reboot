@@ -1,0 +1,15 @@
+{
+  "name": "fibo-database",
+  "version": "1.0.0",
+  "description": "Database interface",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "exports": {
+    ".": "./index.js"
+  },
+  "scripts": {},
+  "dependencies": {
+    "fibo-common": "file:../common"
+  }
+}

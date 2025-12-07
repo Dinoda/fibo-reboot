@@ -1,0 +1,18 @@
+{
+  "name": "fibo-database-mariadb",
+  "version": "1.0.0",
+  "description": "MariaDB/MySQL database interface using FIBO type database interface.",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "exports": {
+    ".": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "fibo-database": "file:../database",
+    "mariadb": "^3.4.5"
+  }
+}
