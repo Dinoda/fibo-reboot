@@ -99,7 +99,7 @@ export default class Transaction {
    *
    * @return Null if the transaction is not finished yet. If finished, returns a boolean, true if the result has been committed, false if it has been rolled-back.
    */
-  successfulFinish() {
+  finishedSuccessfully() {
     return this.finished;
   }
 }

@@ -16,6 +16,12 @@ export default class CRUD {
 			const ope = this.operations[name];
 
 			ope.type = ope.type ?? "SELECT";
+			ope.hydrator = ope.hydrator ?? 
+				(
+					ope.type === "SELECT" 
+					? this.options.defaultHydrator
+					: this.options.defaultUpdateHydrator
+				);
 		}
 	}
 
@@ -36,7 +42,7 @@ export default class CRUD {
 
 		const fields = this.resolveFields(ope.params, data);
 		const result = await this.db.query(ope.sql, fields);
-		const hydrated = this.hydrate(ope.hydrator, result, ope.type);
+		const hydrated = ope.hydrator(result, data, ope);
 
 		if (validator && (ope.type === "SELECT")) {
 			if (! validator.parse(result)) {
@@ -80,12 +86,12 @@ export default class CRUD {
 		});
 	}
 
-	hydrate(hydrator, data, operationType) {
+	hydrate(hydrator, data, result, operation) {
 		if (hydrator) {
-			return hydrator(data);
+			return hydrator(result, data, operation);
 		}
 
-		return type === "SELECT" ? this.options.defaultHydrator(data) : this.options.defaultUpdateHydrator(data);
+		return operation.type === "SELECT" ? this.options.defaultHydrator(result, data, operation) : this.options.defaultUpdateHydrator(result, data, operation);
 	}
 
 	proxy() {
