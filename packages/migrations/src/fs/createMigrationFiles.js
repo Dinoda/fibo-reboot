@@ -3,6 +3,10 @@ import { join } from 'node:path';
 
 import { MIGRATION_DIRECTORY } from '../consts.js';
 
+const getDateString = () => {
+	return new Date().toISOString().replace(/^(.*)T([^\.]*)\..*$/, '$1-$2');
+};
+
 const createFile = async (filename) => {
 	await fs.writeFile(
 		join(
@@ -14,6 +18,8 @@ const createFile = async (filename) => {
 };
 
 export default async (filename) => {
+	filename = getDateString() + '-' + filename;
+
 	try {
 		await fs.access(MIGRATION_DIRECTORY, fs.constants.F_OK);
 	} catch (e) {
