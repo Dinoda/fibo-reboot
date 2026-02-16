@@ -5,7 +5,7 @@ export default async (database, files) => {
 	let loop = true;
 
 	while (loop) {
-		const {index, option} = ask('What migration do you want to execute ?',
+		const {index, option} = await ask('What migration do you want to execute ?',
 			[...files, 'All']);
 
 		if (index == -1) {

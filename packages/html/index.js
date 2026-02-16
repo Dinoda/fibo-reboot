@@ -1,6 +1,8 @@
-export { SSRManager as default } from './src/Manager.js';
+export { default } from './src/Manager.js';
 
-export { Initializer } from './src/Initializer.js';
-export { Builder } from './src/Builder.js';
+export { default as Initializer } from './src/Initializer.js';
+export { default as Builder } from './src/Builder.js';
 
-export { * as Utils } from './src/utils.js';
+export * from './src/exceptions.js';
+
+export * as Utils from './src/utils.js';

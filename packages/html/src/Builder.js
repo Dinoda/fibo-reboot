@@ -1,5 +1,7 @@
 import { defaultTreeAdapter as TreeAdapter } from 'parse5';
 
+import { HTMLBuildingError } from './exceptions.js';
+
 import { findChildrenWithAttribute, getAttribute } from './utils.js';
 
 export default class Builder {
@@ -7,11 +9,13 @@ export default class Builder {
 		'multiple',
 		'data',
 		'component',
-		'layout'
+		'layout',
+		'callback',
 	];
 
-	constructor(manager) {
+	constructor(manager, stringalizer) {
 		this.manager = manager;
+		this.stringalizer = stringalizer;
 		this.attributesToClean = Builder.DEFAULT_ATTRIBUTES_TO_CLEAN;
 	}
 
@@ -21,7 +25,7 @@ export default class Builder {
 		const layout = this.getLayout(element);
 
 		if (layout) {
-			built = this.manager.buildLayout(layout);
+			built = this.manager.buildLayout(layout, data);
 
 			const layoutInsertion = findChildrenWithAttribute(built, 'children');
 			this.appendTo(layoutInsertion, this.buildElement(element, data));
@@ -45,23 +49,40 @@ export default class Builder {
 	}
 
 	initializeElement(element, data) {
-		data = this.selectData(element, data);
+		try {
+			data = this.selectData(element, data);
 
-		if (element.fb?.multiple) {
-			this.initializeMultiple(element, data);
-		} else if (element.childNodes?.length > 0) {
-			const children = Array.from(element.childNodes);
-			for (const child of children) {
-				if (child.fb?.component) {
-					this.initializeComponent(child, child.fb.component, data);
-				} else {
-					this.initializeElement(child, data);
+			if (element.fb?.multiple) {
+				this.initializeMultiple(element, data);
+			} else if (element.childNodes?.length > 0) {
+				const children = Array.from(element.childNodes);
+				for (const child of children) {
+					if (child.fb?.component) {
+						this.initializeComponent(child, child.fb.component, this.selectData(child, data));
+					} else {
+						this.initializeElement(child, data);
+					}
 				}
+			} else if (element.fb?.insertions && element.fb.insertions.length > 0) {
+				this.stringalizer.buildElementString(element, data);
 			}
-		} else if (element.fb?.insertions && element.fb.insertions.length > 0) {
-			this.initializeString(element, data);
-		}
 
+			if (element.fb?.callback) {
+				const cb = this.manager.callbacks[element.fb.callback];
+
+				if (! cb) {
+					throw new HTMLBuildingError(`Couldn't find any prepared callback named "${element.fb.callback}", add it to the manager before building`, null, data);
+				}
+
+				cb(element, data);
+			}
+		} catch (e) {
+			if (e instanceof HTMLBuildingError) {
+				e.pushElement(element);
+			}
+
+			throw e;
+		}
 
 		return element;
 	}
@@ -140,6 +161,8 @@ export default class Builder {
 
 	selectData(element, data) {
 		if (element.fb?.data) {
+			if (!data || !(element.fb.data in data)) throw new HTMLBuildingError(`Trying to find element "${element.fb.data}", but it couldn't be found in the data.`, null, data);
+
 			return data[element.fb.data];
 		}
 

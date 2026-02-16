@@ -1,3 +1,5 @@
-class ImplementationError extends Error {}
+class ImplementationError extends Error {};
 
-export { ImplementationError };
+class FiboError extends Error {};
+
+export { ImplementationError, FiboError };

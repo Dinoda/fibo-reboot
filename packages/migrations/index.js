@@ -1,4 +1,4 @@
-import list from './src/list.js';
+import init from './src/init.js';
 import migration from './src/migration.js';
 
 export default async (database) => {

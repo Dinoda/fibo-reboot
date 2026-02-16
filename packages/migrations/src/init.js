@@ -5,7 +5,7 @@ import listing from './listing.js';
 import createMigrationFiles from './fs/createMigrationFiles.js';
 
 export default async () => {
-	const { index, option } = ask('What do you want to do ?', [
+	const { index, option } = await ask('What do you want to do ?', [
 		'Create a migration',
 		'Migrate', 
 		'Reverse',
@@ -23,7 +23,7 @@ export default async () => {
 			return listing(reverse);
 			break;
 		case 'Create a migration':
-			const response = ask('What do you want to name the file ?');
+			const response = await ask('What do you want to name the file ?');
 
 			await createMigrationFiles(response);
 			break;

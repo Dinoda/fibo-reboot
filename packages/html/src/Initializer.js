@@ -54,6 +54,9 @@ export default class Initializer {
 				case 'layout': 
 					source.fb.layout = value;
 					break;
+				case 'callback': 
+					source.fb.callback = value;
+					break;
 				default:
 					break;
 			}
@@ -74,8 +77,11 @@ export default class Initializer {
 		const matches = node.value.matchAll(this.manager.getInsertionsRegex());
 
 		for (const match of matches) {
+			const identifier = match[3].split('|');
+
 			const res = {
-				name: match[3],
+				name: identifier[0],
+				operations: identifier.slice(1),
 				startAt: match.index + (match[1] === '' ? 0 : 1),
 			};
 

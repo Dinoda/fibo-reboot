@@ -1,26 +1,31 @@
-import { readline } from 'readline';
+import readline from 'readline';
 
-const rl = readline.createInterface({
-	input: process.stdin,
-	output: process.stdout,
-});
+const getInterface = () => { 
+	return readline.createInterface({
+		input: process.stdin,
+		output: process.stdout,
+		terminal: false,
+	});
+};
 
 const getPrompt = (question, options) => {
 	return question + '\n' + 
-		options.map((opt, index + 1) => {
-			return index + '. ' + opt;
+		options.map((opt, index) => {
+			return (index+1) + '. ' + opt;
 		}).join('\n') +
-		"0. Exit\n";
+		"\n0. Exit\n";
 };
 
 const optionQuestion = (question, options) => {
-	return new promise((resolve) => {
+	return new Promise((resolve) => {
+		const rl = getInterface();
+
 		rl.question(getPrompt(question, options), (answer) => {
-			const id = parseInt(answer);
+			const id = parseInt(answer) - 1;
 
 			resolve({ 
-				index: id - 1, 
-				option: id == 0 ? 'Exit' : options[id - 1],
+				index: id, 
+				option: id == -1 ? 'Exit' : options[id],
 			});
 		});
 	});
@@ -31,7 +36,10 @@ export default function (question, options) {
 		return optionQuestion(question, options);
 	}
 	
+
 	return new Promise((resolve) => {
+		const rl = getInterface();
+
 		rl.question(question, (answer) => {
 			resolve(answer.trim());
 		});
