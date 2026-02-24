@@ -40,8 +40,9 @@ export default class CRUD {
 			}
 		}
 
+		console.log(this);
 		const fields = this.resolveFields(ope.params, data);
-		const result = await this.db.query(ope.sql, fields);
+		const result = await this.database.query(ope.sql, fields);
 		const hydrated = ope.hydrator(result, data, ope);
 
 		if (validator && (ope.type === "SELECT")) {

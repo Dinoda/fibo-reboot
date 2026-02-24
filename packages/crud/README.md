@@ -4,6 +4,7 @@
 
 ```js
 import { MariaDBDatabase as Database } from 'fibo-database-mariadb';
+import CRUD from 'fibo-crud';
 
 // You can use any "fibo-database" database, the mariaDB is only used for the example
 const database = new Database({

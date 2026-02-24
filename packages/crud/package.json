@@ -1,9 +1,9 @@
 {
-  "name": "crud",
+  "name": "fibo-crud",
   "version": "1.0.0",
   "description": "Helps to create CRUD (Create, Read, Update, Delete) operations using any database matching the 'fibo-database' class.",
   "exports": {
-    ".": "index.js"
+    ".": "./index.js"
   },
   "scripts": {
     "test": "node test/index.js"
