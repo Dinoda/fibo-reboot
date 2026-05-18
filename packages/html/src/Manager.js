@@ -43,10 +43,13 @@ export default class SSRManager {
 	// ======= //
 
 	async loadFromDirectory(root, path = '') {
+		console.log(`Loading from directory: "${root}"`);
+		console.log(`Sub-directory: "${path}"`);
 		root = resolve(root);
 		const files = await readdir(join(root, path));
 
 		for (const file of files) {
+			console.log(`Loading file: "${file}" from "${join(root, path)}"`);
 			await this.loadFile(file, root, path);
 		}
 	}
@@ -58,7 +61,7 @@ export default class SSRManager {
 		const filestat = await stat(filepath);
 
 		if (filestat.isDirectory()) {
-			this.loadFromDirectory(root, join(path, filename));
+			await this.loadFromDirectory(root, join(path, filename));
 		} else {
 			const content = await readFile(filepath, 'utf-8');
 
